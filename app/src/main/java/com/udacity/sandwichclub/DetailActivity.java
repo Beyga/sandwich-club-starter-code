@@ -1,15 +1,27 @@
 package com.udacity.sandwichclub;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.udacity.sandwichclub.model.Sandwich;
 import com.udacity.sandwichclub.utils.JsonUtils;
+
+import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -52,7 +64,6 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         populateUI(sandwich);
-        Picasso.with(this).load(sandwich.getImage()).into(mIngredientsIv);
 
     }
 
@@ -63,6 +74,8 @@ public class DetailActivity extends AppCompatActivity {
 
     private void populateUI(Sandwich sandwich) {
 
+        Picasso.with(this).setLoggingEnabled(true);
+        Picasso.with(this).load(Uri.parse(sandwich.getImage())).error(R.mipmap.ic_launcher_round).into(mIngredientsIv);
         setTitle(sandwich.getMainName());
         mAlsoKnownTv.setText(displayList(sandwich.getAlsoKnownAs()));
         mOriginTv.setText(sandwich.getPlaceOfOrigin());
